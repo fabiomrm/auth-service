@@ -1,0 +1,23 @@
+{
+  "name": "auth-microservice",
+  "version": "1.0.0",
+  "description": "auth microservice",
+  "main": "./dist/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./",
+    "build": "tsc -p .",
+    "start-dev": "ts-node-dev --respawn --transpile-only --ignore-watch node_modules --no-notify src/server.ts"
+  },
+  "author": "fmrm",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.2",
+    "typescript": "^4.5.4"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/node": "^17.0.0",
+    "ts-node-dev": "^1.1.8"
+  }
+}
