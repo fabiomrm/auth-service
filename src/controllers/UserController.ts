@@ -1,10 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
+import userRepository from '../repositories/user.repository';
 
 export class UserController
 {
     public async getAll(req: Request, res: Response, next: NextFunction): Promise<void>
     {
-        const users:any = [];
+        const users = await userRepository.findAll();
         res.status(200).send({ users })
         
     }
@@ -13,7 +14,9 @@ export class UserController
     {
         const { uuid } = req.params;
 
-        res.status(200).send({ uuid })
+        const user = await userRepository.findById(uuid);
+
+        res.status(200).send({ user })
 
     }
 
@@ -21,20 +24,30 @@ export class UserController
     {
         const user = req.body;
 
-        res.status(200).send({ user })
+        const newUserUuid = await userRepository.createUser(user);
+        
+        res.status(200).send({ newUserUuid })
     }
 
     public async update(req: Request, res: Response, next: NextFunction) : Promise<void>
     {
         const { uuid } = req.params;
+        const modifiedUser = req.body;
+        
+        modifiedUser.uuid = uuid;
 
-        res.status(200).send({ uuid })
+        const updateUser = await userRepository.updateUser(modifiedUser);
+
+
+
+        res.status(200).send({  updateUser })
     }
 
     public async delete(req: Request, res: Response, next: NextFunction) : Promise<void>
     {
         const { uuid } = req.params;
-        
-        res.status(200).send("Deletado!");
+
+        await userRepository.removeUser(uuid);
+        res.status(200).send(`Usuário deletado: ${uuid}`);
     }
 }
