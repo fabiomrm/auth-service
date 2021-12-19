@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import { DatabaseError } from '../models/errors/database.error.model';
 import userRepository from '../repositories/user.repository';
 
 export class UserController
@@ -12,12 +13,16 @@ export class UserController
 
     public async getOne(req: Request, res: Response, next: NextFunction): Promise<void>
     {
-        const { uuid } = req.params;
+        try {
 
-        const user = await userRepository.findById(uuid);
+            const { uuid } = req.params;
 
-        res.status(200).send({ user })
+            const user = await userRepository.findById(uuid);
 
+            res.status(200).send({ user })
+        } catch(error) {
+            next(error);
+        }
     }
 
     public async create(req: Request, res: Response, next: NextFunction) : Promise<void>

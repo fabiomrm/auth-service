@@ -1,35 +1,49 @@
 import User from '../models/user.model';
 import db from '../instances/db';
+import { DatabaseError } from '../models/errors/database.error.model';
 
 
 class UserRepository
 {
     async findAll(): Promise<Array<User>>
     {
-        const query = `
-        SELECT uuid, username 
-        FROM application_user
-        `;
+        try{
+            const query = `
+                SELECT uuid, username 
+                FROM application_user
+            `;
 
-        const result = await db.query<User>(query);
-        const rows = result.rows;
-        return rows || [];
+            const result = await db.query<User>(query);
+            const rows = result.rows;
+            return rows || [];
+
+
+        }catch(err) {
+           throw err
+        }
+        
     }
 
     async findById(uuid: string): Promise<User>
     {
-        const query = `
-            SELECT uuid, username
-            FROM application_user
-            WHERE uuid = $1
-        `;
+        try {
+            const query = `
+                SELECT uuid, username
+                FROM application_user
+                WHERE uuid = $1
+            `;
 
-        const values = [uuid];
+            const values = [uuid];
 
-        const { rows }= await db.query<User>(query, values);
-        const user = rows[0];
+            const { rows }= await db.query<User>(query, values);
+            const user = rows[0];
 
-        return user;   
+            return user;   
+
+        }catch(err) {
+            throw new DatabaseError('Erro na consulta por ID: ', err as Error);
+        }
+        
     }
 
     async createUser(user: User): Promise<string>
