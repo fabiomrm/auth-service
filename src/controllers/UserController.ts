@@ -7,6 +7,8 @@ export class UserController
     public async getAll(req: Request, res: Response, next: NextFunction): Promise<void>
     {
         const users = await userRepository.findAll();
+
+
         res.status(200).send({ users })
         
     }
