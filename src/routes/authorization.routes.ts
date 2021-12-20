@@ -7,8 +7,8 @@ import JWTAuthenticationMiddleware from "../middlewares/jwt-authentication.middl
 const authorizationRoute = Router();
 const authController = new AuthController();
 
-authorizationRoute.post('/token/validate', JWTAuthenticationMiddleware, authController.validate);
 authorizationRoute.post('/token', basicAuthenticationMiddleware, authController.basicAuth);
+authorizationRoute.post('/token/validate', JWTAuthenticationMiddleware, authController.validate);
 
 
 export default authorizationRoute;

@@ -7,6 +7,7 @@ async function basicAuthenticationMiddleware(req: Request, res: Response, next: 
     try {
         const { authorization } = req.headers;
 
+
         if(!authorization)
         {
             throw new ForbiddenError('Credenciais não informadas');
@@ -29,7 +30,7 @@ async function basicAuthenticationMiddleware(req: Request, res: Response, next: 
         }
 
         const user = await userRepository.findByUsernameAndPassword(username, password);
-        
+
         if (!user) {
             throw new ForbiddenError('Usuário ou senha inválidos!');
         }

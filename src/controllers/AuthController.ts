@@ -7,11 +7,14 @@ export class AuthController
     {
         try {
             const user = req.user;
-
+            
             //BUILD JWT
             const JWTPayload = { username: user.username};
             const secretKey = 'MY_SECRET_KEY';
-            const JWTOptions = { subject: user?.uuid };
+            const JWTOptions = { 
+                subject: user?.uuid,
+                expiresIn: 60000000,
+            };
 
             const jwt = JWT.sign(JWTPayload, secretKey, JWTOptions);
 
