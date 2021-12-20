@@ -21,4 +21,9 @@ export class AuthController
             next(err);
         }
     }
+
+    public validate(req: Request, res: Response, next: NextFunction): void
+    {
+        res.sendStatus(200);
+    }
 }
