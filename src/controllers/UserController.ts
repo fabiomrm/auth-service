@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from 'express';
-import { DatabaseError } from '../models/errors/database.error.model';
 import userRepository from '../repositories/user.repository';
 
 export class UserController

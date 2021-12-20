@@ -88,6 +88,24 @@ class UserRepository
 
         await db.query(query, values);
     }
+
+    async findByUsernameAndPassword(username: string, password: string): Promise<User | null>
+    {
+        const query = `
+            SELECT uuid, username
+            FROM application_user
+            WHERE username = $1
+            AND password = crypt($2, 'my_salt')
+        `;
+
+        const values = [username, password]
+        const result = await db.query<User>(query, values);
+        const { rows } = result;
+        const user = rows[0]
+
+        return user ? user : null;
+        
+    }
 }
 
 export default new UserRepository();
